@@ -1,8 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {setUsers, setInProgress} from '../redux/users-reducer';
+import {setUsers, setInProgress, getUsers} from '../redux/users-reducer';
 import Button from './Button';
-import {UsersAPI} from '../api/UsersAPI';
 
 class UsersContainer extends React.Component {
   componentDidMount() {
@@ -13,12 +12,7 @@ class UsersContainer extends React.Component {
     // the component will be rerendered on changes! NOT via direct 
     // call (like setInProgress(true)) 
     // cause rerendering will happen on changes in props
-    this.props.setInProgress(true);
-    UsersAPI.getUsers().then(users => {
-      console.log("users - ", users);
-      this.props.setUsers(users);
-      this.props.setInProgress(false);
-    });
+    this.props.getUsers();
   }
 
   render() {
@@ -36,4 +30,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {setUsers, setInProgress})(UsersContainer);
+export default connect(mapStateToProps, {setUsers, setInProgress, getUsers})(UsersContainer);

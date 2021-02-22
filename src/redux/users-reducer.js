@@ -1,3 +1,5 @@
+import {UsersAPI} from '../api/UsersAPI';
+
 const SET_USERS = "SET_USERS";
 const SET_IN_PROGRESS = "SET_IN_PROGRESS";
 
@@ -32,6 +34,18 @@ export const setUsers = (users) => {
 export const setInProgress = (inProgress) => {
     console.log("in setInProgress");
     return {type: SET_IN_PROGRESS, inProgress }
+}
+
+//TODO: these are thunks - they can do async actions and use dispatch
+export const getUsers = () => {
+    return (dispatch) => {
+        dispatch(setInProgress(true));
+        UsersAPI.getUsers().then(users => {
+            console.log("users - ", users);
+            dispatch(setUsers(users));
+            dispatch(setInProgress(false));
+        });
+    }
 }
 
 export default usersReducer;
